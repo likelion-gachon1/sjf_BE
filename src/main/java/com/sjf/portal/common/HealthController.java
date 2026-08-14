@@ -1,4 +1,4 @@
-package com.sjf.portal.controller;
+package com.sjf.portal.common;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
