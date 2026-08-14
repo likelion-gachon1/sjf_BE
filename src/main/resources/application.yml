@@ -3,12 +3,13 @@ spring:
     name: sjf-be
 
   datasource:
-    url: jdbc:h2:mem:sjf
+    url: jdbc:h2:file:./data/sjf;DB_CLOSE_ON_EXIT=FALSE
     driver-class-name: org.h2.Driver
     username: sa
     password:
 
   jpa:
+    open-in-view: false
     hibernate:
       ddl-auto: update
     show-sql: true
@@ -16,5 +17,22 @@ spring:
       hibernate:
         format_sql: true
 
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 11MB
+
 server:
   port: 8080
+
+portal:
+  storage-path: ${STORAGE_PATH:./uploads}
+  session-ttl-hours: ${SESSION_TTL_HOURS:24}
+  frontend-base-url: ${FRONTEND_BASE_URL:http://localhost:3000}
+  public-api-base-url: ${PUBLIC_API_BASE_URL:http://localhost:8080}
+  allowed-origins: ${ALLOWED_ORIGINS:http://localhost:3000}
