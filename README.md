@@ -1,3 +1,5 @@
+// fork 권한 열어주세요
+
 # MCM PORTAL Backend
 
 MCM PORTAL은 사용자가 선택한 제품, 여행 무드, 여행 스타일에 따라 생성된 World를 체험하고, 촬영 결과를 QR로 저장·공유할 수 있는 서비스입니다.
