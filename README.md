@@ -1,4 +1,5 @@
-// fork 권한 열어주세요
+// fork 권한 열어주세요.
+
 // docs 디렉토리 안에 api 명세서 만들어봤는데 프론트 분들 확인 한 번 부탁드립니다.
 
 # MCM PORTAL Backend
