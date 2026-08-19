@@ -62,7 +62,7 @@ Content-Type: multipart/form-data
 
 ```text
 pink
-black
+beige
 ```
 
 #### mood

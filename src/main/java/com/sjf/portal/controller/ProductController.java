@@ -23,9 +23,9 @@ public class ProductController {
                 ),
                 new ProductResponse(
                         2L,
-                        "Black Bag",
-                        "BLACK",
-                        "/images/black-bag.png",
+                        "Beige Bag",
+                        "BEIGE",
+                        "/images/beige-bag.png",
                         "https://kr.mcmworldwide.com/"
                 )
         );
