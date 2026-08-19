@@ -35,7 +35,7 @@ public class WorldRecommendService {
             );
         }
 
-        if (mood.equals("BRIGHT") && travelStyle.equals("RELAX")) {
+        if (mood.equals("LIGHT") && travelStyle.equals("RELAX")) {
             return new WorldRecommendResponse(
                     3L,
                     "PARIS",

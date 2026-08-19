@@ -3,10 +3,9 @@ spring:
     name: sjf-be
 
   datasource:
-    url: jdbc:h2:file:./data/sjf;DB_CLOSE_ON_EXIT=FALSE
-    driver-class-name: org.h2.Driver
-    username: sa
-    password:
+    url: ${DB_URL:jdbc:h2:file:./data/sjf;DB_CLOSE_ON_EXIT=FALSE}
+    username: ${DB_USERNAME:sa}
+    password: ${DB_PASSWORD:}
 
   jpa:
     open-in-view: false
@@ -19,7 +18,7 @@ spring:
 
   h2:
     console:
-      enabled: true
+      enabled: ${H2_CONSOLE_ENABLED:true}
       path: /h2-console
 
   servlet:
@@ -28,7 +27,7 @@ spring:
       max-request-size: 11MB
 
 server:
-  port: 8080
+  port: ${PORT:8080}
 
 portal:
   storage-path: ${STORAGE_PATH:./uploads}
