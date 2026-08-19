@@ -30,6 +30,9 @@ dependencies {
 	// 로컬 개발용 임시 DB
 	runtimeOnly 'com.h2database:h2'
 
+	// 운영 PostgreSQL
+	runtimeOnly 'org.postgresql:postgresql'
+
 	// 반복 코드 감소
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
