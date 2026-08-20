@@ -39,3 +39,4 @@ out/
 /uploads/
 *.mv.db
 *.trace.db
+.DS_Store
