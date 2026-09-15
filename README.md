@@ -176,6 +176,7 @@ Base URL(로컬): `http://localhost:8080` · 인증 없음(MVP) · 상세 규격
 | 세션 메타데이터 | H2 파일 DB | `./data/sjf` (`DB_CLOSE_ON_EXIT=FALSE`) |
 | 촬영 이미지 | 로컬 파일 | `./uploads/{sessionId}.jpg` |
 | 세션 수명 | 저장 후 24시간(`SESSION_TTL_HOURS`, 기본 24) | `expiresAt` 컬럼 |
+| 만료 정리 | 15분 간격(`SESSION_CLEANUP_INTERVAL_MS`, 기본 900000) | 이미지 삭제 후 DB 레코드 삭제 |
 
 이미지를 DB에 넣지 않고 파일로 두는 이유는, 조회·다운로드 요청이 곧 정적 파일 전송이라
 DB를 거칠 이유가 없고, 파일명을 `{sessionId}.jpg` 로 고정하면 세션과 파일이 1:1로 묶여
@@ -191,8 +192,8 @@ DB를 거칠 이유가 없고, 파일명을 `{sessionId}.jpg` 로 고정하면 �
 **운영 전환 시** — DB는 이미 PostgreSQL 드라이버가 들어 있어 `DB_URL`·계정만 바꾸면 넘어가고
 (JPA `ddl-auto: update`), 이미지는 로컬 디스크 대신 오브젝트 스토리지(S3 등)로 옮기면서
 `FileStorageService` 의 저장·로드 지점을 교체하면 됩니다. 세션 만료는 지금은 조회 시점에
-`expiresAt` 을 비교해 판정할 뿐 실제 레코드·파일 삭제는 하지 않으므로, 운영에서는 만료분을
-정리하는 스케줄러가 추가로 필요합니다.
+`expiresAt` 을 지난 세션은 스케줄러가 100건씩 조회해 이미지와 DB 레코드를 함께 정리합니다.
+이미지 삭제가 실패한 레코드는 남겨 다음 실행에서 재시도합니다.
 
 ## 에러 처리
 
@@ -236,6 +237,7 @@ CORS 는 `WebConfig` 에서 `/api/**` 에만 적용되며, 허용 오리진은 `
 | `server.port` | `PORT` | `8080` | 서버 포트 |
 | `portal.storage-path` | `STORAGE_PATH` | `./uploads` | 이미지 저장 경로 |
 | `portal.session-ttl-hours` | `SESSION_TTL_HOURS` | `24` | 세션 만료 시간(시간) |
+| `portal.cleanup-interval-ms` | `SESSION_CLEANUP_INTERVAL_MS` | `900000` | 만료 세션 정리 주기(ms) |
 | `portal.frontend-base-url` | `FRONTEND_BASE_URL` | `http://localhost:3000` | `shareUrl` host |
 | `portal.public-api-base-url` | `PUBLIC_API_BASE_URL` | `http://localhost:8080` | `imageUrl`·`downloadUrl` host |
 | `portal.allowed-origins` | `ALLOWED_ORIGINS` | `http://localhost:3000` | CORS 허용 오리진(콤마 구분) |
@@ -281,8 +283,6 @@ QR 을 스캔하려면 `shareUrl` 의 host(`FRONTEND_BASE_URL`)를 실제 접근
 
 ## 알려진 한계 · TODO
 
-- 만료 세션·이미지의 실제 삭제 로직이 없습니다. 조회 시점에 `expiresAt` 으로 판정만 하므로,
-  운영에서는 만료분을 정리하는 스케줄러가 필요합니다.
 - 인증이 없습니다(MVP). `sessionId` 를 알면 누구나 이미지를 조회할 수 있으므로, 공개 서비스로
   전환한다면 접근 제어가 필요합니다.
 - 이미지가 로컬 디스크에 저장돼 서버가 교체되면 함께 사라집니다(운영 전환 시 오브젝트

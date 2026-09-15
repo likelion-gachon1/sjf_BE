@@ -32,6 +32,7 @@ server:
 portal:
   storage-path: ${STORAGE_PATH:./uploads}
   session-ttl-hours: ${SESSION_TTL_HOURS:24}
+  cleanup-interval-ms: ${SESSION_CLEANUP_INTERVAL_MS:900000}
   frontend-base-url: ${FRONTEND_BASE_URL:http://localhost:3000}
   public-api-base-url: ${PUBLIC_API_BASE_URL:http://localhost:8080}
   allowed-origins: ${ALLOWED_ORIGINS:http://localhost:3000}
