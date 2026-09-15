@@ -98,6 +98,16 @@ public class FileStorageService {
         }
     }
 
+    /** 만료 정리용. 파일이 없으면 성공, 실제 삭제 오류면 다음 주기에 재시도할 수 있게 false. */
+    public boolean deleteIfExists(String filename) {
+        try {
+            Files.deleteIfExists(resolveSafePath(filename));
+            return true;
+        } catch (IOException exception) {
+            return false;
+        }
+    }
+
     private Path resolveSafePath(String filename) {
         Path target = storageRoot.resolve(filename).normalize();
         if (!target.startsWith(storageRoot)) {
